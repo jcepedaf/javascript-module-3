@@ -11,7 +11,6 @@ div3.className = "content";
 
 div.innerHTML =
   '<div class="sidebar"><a href="/" class="active">Rick & Morty</a><div class="list-group list-group-flush border-bottom scrollarea"></div></div>';
-  
 
 const clearContent = () => {
   const contenido = document.querySelector(".content");
@@ -142,26 +141,28 @@ const paginar = (urlNext) => {
       const count = json.results;
       const lista = document.querySelector(".sidebar");
       div.appendChild(lista);
-      count.forEach((result,id) => {
+      count.forEach((result, id) => {
         const div2 = document.createElement("div");
         lista.appendChild(div2);
         div2.innerHTML = `<a href="#" ><div class="d-flex w-100 align-items-center justify-content-between"><strong class="mb-1 episodeList">Episode-${result.id}</strong></div></a>`;
         div2.onclick = () => contenidoEpisodio(result.id);
-  
-      })
+      });
       const button = document.createElement("button");
-    button.className = "btn btn-outline-primary m-3";
-    lista.appendChild(button);
-    button.innerText = "Load More";
-    button.onclick = (event) =>  {event.preventDefault();  paginar(json.info.next); button.className = "d-none"};
+      button.className = "btn btn-outline-primary m-3";
+      lista.appendChild(button);
+      button.innerText = "Load More";
+      button.onclick = (event) => {
+        event.preventDefault();
+        paginar(json.info.next);
+        button.className = "d-none";
+      };
     })
-}
-
+    .catch((error) => console.warn(error));
+};
 
 fetch(url)
   .then((response) => response.json())
   .then((json) => {
-    //console.log(json);
     const count = json.results;
     const lista = document.querySelector(".sidebar");
     div.appendChild(lista);
@@ -169,15 +170,16 @@ fetch(url)
       const div2 = document.createElement("div");
       lista.appendChild(div2);
       div2.innerHTML = `<a href="#" ><div class="d-flex w-100 align-items-center justify-content-between"><strong class="mb-1 episodeList">Episode-${result.id}</strong></div></a>`;
-      //onsole.log(result.id);
       div2.onclick = () => contenidoEpisodio(result.id);
-
-    })
+    });
     const button = document.createElement("button");
     button.className = "btn btn-outline-primary m-3";
     lista.appendChild(button);
     button.innerText = "Load More";
-    button.onclick = (event) => {event.preventDefault(); paginar(json.info.next); button.className = "d-none"};
-    
+    button.onclick = (event) => {
+      event.preventDefault();
+      paginar(json.info.next);
+      button.className = "d-none";
+    };
   })
   .catch((error) => console.warn(error));
